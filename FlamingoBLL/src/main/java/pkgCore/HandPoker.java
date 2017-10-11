@@ -1,6 +1,7 @@
 package pkgCore;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import pkgEnum.eCardNo;
 import pkgEnum.eHandStrength;
@@ -17,9 +18,9 @@ public class HandPoker extends Hand {
 		// TODO : Implement this method... call each of the 'is' methods (isRoyalFlush,
 		// etc) until
 		// one of the hands is true, then score the hand
-
+		Collections.sort(super.getCards());
 		if (isRoyalFlush()) {
-
+			
 		} else if (isStraightFlush()) {
 
 		}
@@ -35,7 +36,12 @@ public class HandPoker extends Hand {
 
 	public boolean isStraightFlush() {
 		boolean bisStraightFlush = false;
-		// TODO : Implement this method
+		// TODO : Implement this method 
+		if (isFlush()==true && isStraight()==true) {
+			bisStraightFlush = true;
+		}else {
+			bisStraightFlush = false;
+		}
 		return bisStraightFlush;
 	}
 
@@ -71,6 +77,9 @@ public class HandPoker extends Hand {
 	public boolean isFullHouse() {
 		boolean bisFullHouse = false;
 		// TODO : Implement this method
+		if(isPair()==true && isThreeOfAKind()==true) {
+			
+		}
 		return bisFullHouse;
 	}
 
@@ -101,18 +110,47 @@ public class HandPoker extends Hand {
 	public boolean isStraight() {
 		boolean bisStraight = false;
 		// TODO : Implement this method
+		int idiff = 0;
+
+		for (int i = 0; i < this.getCards().size() - 1; i++) {
+			idiff = (this.getCards().get(i).geteRank().getiRankNbr()
+					- this.getCards().get(i + 1).geteRank().getiRankNbr());
+			if (idiff != 1) {
+				bisStraight = false;
+			} else {
+				bisStraight = true;
+			}
+		}
 		return bisStraight;
+
 	}
 
 	public boolean isThreeOfAKind() {
 		boolean bisThreeOfAKind = false;
 		// TODO : Implement this method
+		if(super.getCards().get(eCardNo.FIRST.getiCardNo()).geteRank()==super.getCards().get(eCardNo.THIRD.getiCardNo()).geteRank()) {
+			
+		}else if (super.getCards().get(eCardNo.SECOND.getiCardNo()).geteRank()==super.getCards().get(eCardNo.FOURTH.getiCardNo()).geteRank()) {
+			
+		}else if(super.getCards().get(eCardNo.THIRD.getiCardNo()).geteRank()==super.getCards().get(eCardNo.FIFTH.getiCardNo()).geteRank()) {
+			
+		}
 		return bisThreeOfAKind;
 	}
 
 	public boolean isTwoPair() {
 		boolean bisTwoPair = false;
 		// TODO : Implement this method
+		if(super.getCards().get(eCardNo.FIRST.getiCardNo()).geteRank()==super.getCards().get(eCardNo.SECOND.getiCardNo()).geteRank()
+				&& super.getCards().get(eCardNo.THIRD.getiCardNo()).geteRank()==super.getCards().get(eCardNo.FOURTH.getiCardNo()).geteRank()) {
+			
+		}else if (super.getCards().get(eCardNo.SECOND.getiCardNo()).geteRank()==super.getCards().get(eCardNo.THIRD.getiCardNo()).geteRank()
+				&& super.getCards().get(eCardNo.FOURTH.getiCardNo()).geteRank()==super.getCards().get(eCardNo.FIFTH.getiCardNo()).geteRank()) {
+			
+		}else if (super.getCards().get(eCardNo.FIRST.getiCardNo()).geteRank()==super.getCards().get(eCardNo.SECOND.getiCardNo()).geteRank()
+				&& super.getCards().get(eCardNo.FOURTH.getiCardNo()).geteRank()==super.getCards().get(eCardNo.FIFTH.getiCardNo()).geteRank()) {
+			
+		}
 		return bisTwoPair;
 	}
 
@@ -125,6 +163,12 @@ public class HandPoker extends Hand {
 	public boolean isHighCard() {
 		boolean bisHighCard = false;
 		// TODO : Implement this method
+		if (super.getCards().get(eCardNo.FIRST.getiCardNo()).geteRank()!=super.getCards().get(eCardNo.SECOND.getiCardNo()).geteRank()
+				&& super.getCards().get(eCardNo.SECOND.getiCardNo()).geteRank()!=super.getCards().get(eCardNo.THIRD.getiCardNo()).geteRank()
+				&&super.getCards().get(eCardNo.THIRD.getiCardNo()).geteRank()!=super.getCards().get(eCardNo.FOURTH.getiCardNo()).geteRank()
+				&& super.getCards().get(eCardNo.FOURTH.getiCardNo()).geteRank()!=super.getCards().get(eCardNo.FIFTH.getiCardNo()).geteRank()) {
+			
+		}
 		return bisHighCard;
 	}
 

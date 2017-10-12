@@ -5,11 +5,12 @@ import java.util.Collections;
 
 import pkgEnum.eCardNo;
 import pkgEnum.eHandStrength;
+import pkgEnum.eRank;
 import pkgEnum.eSuit;
 
 public class HandPoker extends Hand {
 
-	HandScorePoker HS = (HandScorePoker) this.getHS();
+	
 
 	public HandPoker() {
 		this.setHS(new HandScorePoker());
@@ -45,8 +46,9 @@ public class HandPoker extends Hand {
 
 	public boolean isRoyalFlush() {
 		boolean bIsRoyalFlush = false;
-
-		if (this.isStraightFlush() && super.getCards().get(eCardNo.FIRST.getiCardNo()).geteRank().getiRankNbr() == 14) {
+		HandScorePoker HS = (HandScorePoker) super.getHS();
+		
+		if (this.isStraightFlush() && super.getCards().get(eCardNo.FIFTH.getiCardNo()).geteRank() == eRank.ACE) {
 			bIsRoyalFlush = true;
 			HS.seteHandStrength(eHandStrength.RoyalFlush);
 			this.setHS(HS);
@@ -56,12 +58,15 @@ public class HandPoker extends Hand {
 
 	public boolean isStraightFlush() {
 		boolean bisStraightFlush = false;
+		HandScorePoker HS = (HandScorePoker) super.getHS();
 
-		if (isFlush() && isStraight()) {
-			bisStraightFlush = true;
+		if (this.isFlush() && this.isStraight()) {
+			
 			HS.seteHandStrength(eHandStrength.StraightFlush);
+			bisStraightFlush = true;
 			this.setHS(HS);
 		}
+		
 		return bisStraightFlush;
 	}
 
@@ -96,10 +101,10 @@ public class HandPoker extends Hand {
 
 	public boolean isFullHouse() {
 		boolean bisFullHouse = false;
-
-		if (this.isPair() && this.isThreeOfAKind()) {
-			bisFullHouse = true;
+		HandScorePoker HS = (HandScorePoker) super.getHS();
+		if (this.isTwoPair() && this.isThreeOfAKind()) {
 			HS.seteHandStrength(eHandStrength.FullHouse);
+			bisFullHouse = true;
 			this.setHS(HS);
 		}
 		return bisFullHouse;
@@ -107,6 +112,7 @@ public class HandPoker extends Hand {
 
 	public boolean isFlush() {
 		boolean bisFlush = false;
+		
 
 		int iCardCnt = super.getCards().size();
 		int iSuitCnt = 0;
@@ -133,35 +139,27 @@ public class HandPoker extends Hand {
 	public boolean isStraight() {
 		boolean bisStraight = false;
 		int idiff = 0;
-
-		if (this.getCards().get(eCardNo.FIRST.getiCardNo()).geteRank().getiRankNbr() == 14
-				&& super.getCards().get(eCardNo.SECOND.getiCardNo()).geteRank().getiRankNbr() == 5) {
-			if (super.getCards().get(eCardNo.SECOND.getiCardNo()).geteRank().getiRankNbr() - 1 == super.getCards()
-					.get(eCardNo.THIRD.getiCardNo()).geteRank().getiRankNbr()
-					&& super.getCards().get(eCardNo.THIRD.getiCardNo()).geteRank().getiRankNbr() - 1 == super.getCards()
-							.get(eCardNo.FOURTH.getiCardNo()).geteRank().getiRankNbr()
-					&& super.getCards().get(eCardNo.FOURTH.getiCardNo()).geteRank().getiRankNbr()
-							- 1 == super.getCards().get(eCardNo.FIFTH.getiCardNo()).geteRank().getiRankNbr()) {
-				bisStraight = true;
-				HS.seteHandStrength(eHandStrength.Straight);
-			}
-		} else {
-			for (int i = 0; i < this.getCards().size() - 1; i++) {
+		int i = 0;
+		HandScorePoker HS = (HandScorePoker) super.getHS();
+		if (this.getCards().get(eCardNo.FIRST.getiCardNo()).geteRank()== eRank.ACE
+				|| super.getCards().get(eCardNo.FIFTH.getiCardNo()).geteRank()== eRank.ACE) {
+			i=1;
+		}
+			for (; i < this.getCards().size() - 1; i++) {
 				idiff = (this.getCards().get(i).geteRank().getiRankNbr()
 						- this.getCards().get(i + 1).geteRank().getiRankNbr());
-				if (idiff == 1) {
+				if (idiff == -1) {
 					bisStraight = true;
 					HS.seteHandStrength(eHandStrength.Straight);
 					this.setHS(HS);
 				}
 			}
-		}
 		return bisStraight;
-
-	}
+}
 
 	public boolean isThreeOfAKind() {
 		boolean bisThreeOfAKind = false;
+		HandScorePoker HS = (HandScorePoker) super.getHS();
 		if (super.getCards().get(eCardNo.FIRST.getiCardNo()).geteRank().getiRankNbr() == super.getCards()
 				.get(eCardNo.THIRD.getiCardNo()).geteRank().getiRankNbr()) {
 			
@@ -171,6 +169,7 @@ public class HandPoker extends Hand {
 			ArrayList<Card> kickers = new ArrayList<Card>();
 			kickers.add(super.getCards().get(eCardNo.FIFTH.getiCardNo()));
 			HS.setKickers(kickers);
+			
 		} else if (super.getCards().get(eCardNo.SECOND.getiCardNo()).geteRank().getiRankNbr() == super.getCards()
 				.get(eCardNo.FOURTH.getiCardNo()).geteRank().getiRankNbr()) {
 			
@@ -196,11 +195,12 @@ public class HandPoker extends Hand {
 
 	public boolean isTwoPair() {
 		boolean bisTwoPair = false;
+		HandScorePoker HS = (HandScorePoker) super.getHS();
 
-		if (super.getCards().get(eCardNo.FIRST.getiCardNo()).geteRank() == super.getCards()
-				.get(eCardNo.SECOND.getiCardNo()).geteRank()
-				&& super.getCards().get(eCardNo.THIRD.getiCardNo()).geteRank() == super.getCards()
-						.get(eCardNo.FOURTH.getiCardNo()).geteRank()) {
+		if (super.getCards().get(eCardNo.FIRST.getiCardNo()).geteRank().getiRankNbr() == super.getCards()
+				.get(eCardNo.SECOND.getiCardNo()).geteRank().getiRankNbr()
+				&& super.getCards().get(eCardNo.THIRD.getiCardNo()).geteRank().getiRankNbr() == super.getCards()
+						.get(eCardNo.FOURTH.getiCardNo()).geteRank().getiRankNbr()) {
 			
 			bisTwoPair = true;
 			HS.seteHandStrength(eHandStrength.TwoPair);
@@ -210,10 +210,10 @@ public class HandPoker extends Hand {
 			kickers.add(super.getCards().get(eCardNo.FIFTH.getiCardNo()));
 			HS.setKickers(kickers);
 
-		} else if (super.getCards().get(eCardNo.SECOND.getiCardNo()).geteRank() == super.getCards()
-				.get(eCardNo.THIRD.getiCardNo()).geteRank()
-				&& super.getCards().get(eCardNo.FOURTH.getiCardNo()).geteRank() == super.getCards()
-						.get(eCardNo.FIFTH.getiCardNo()).geteRank()) {
+		} else if (super.getCards().get(eCardNo.SECOND.getiCardNo()).geteRank().getiRankNbr() == super.getCards()
+				.get(eCardNo.THIRD.getiCardNo()).geteRank().getiRankNbr()
+				&& super.getCards().get(eCardNo.FOURTH.getiCardNo()).geteRank().getiRankNbr() == super.getCards()
+						.get(eCardNo.FIFTH.getiCardNo()).geteRank().getiRankNbr()) {
 			
 			bisTwoPair = true;
 			HS.seteHandStrength(eHandStrength.TwoPair);
@@ -223,10 +223,10 @@ public class HandPoker extends Hand {
 			kickers.add(super.getCards().get(eCardNo.FIRST.getiCardNo()));
 			HS.setKickers(kickers);
 
-		} else if (super.getCards().get(eCardNo.FIRST.getiCardNo()).geteRank() == super.getCards()
-				.get(eCardNo.SECOND.getiCardNo()).geteRank()
-				&& super.getCards().get(eCardNo.FOURTH.getiCardNo()).geteRank() == super.getCards()
-						.get(eCardNo.FIFTH.getiCardNo()).geteRank()) {
+		} else if (super.getCards().get(eCardNo.FIRST.getiCardNo()).geteRank().getiRankNbr() == super.getCards()
+				.get(eCardNo.SECOND.getiCardNo()).geteRank().getiRankNbr()
+				&& super.getCards().get(eCardNo.FOURTH.getiCardNo()).geteRank().getiRankNbr() == super.getCards()
+						.get(eCardNo.FIFTH.getiCardNo()).geteRank().getiRankNbr()) {
 			
 			bisTwoPair = true;
 			HS.seteHandStrength(eHandStrength.TwoPair);
@@ -243,6 +243,8 @@ public class HandPoker extends Hand {
 
 	public boolean isPair() {
 		boolean bisPair = false;
+		HandScorePoker HS = (HandScorePoker) super.getHS();
+		
 		Card first = super.getCards().get(eCardNo.FIRST.getiCardNo());
 		Card second = super.getCards().get(eCardNo.SECOND.getiCardNo());
 		Card third = super.getCards().get(eCardNo.THIRD.getiCardNo());
@@ -284,7 +286,8 @@ public class HandPoker extends Hand {
 
 	public boolean isHighCard() {
 		boolean bisHighCard = false;
-		// TODO : Implement this method
+		HandScorePoker HS = (HandScorePoker) super.getHS();
+		
 		if (super.getCards().get(eCardNo.FIRST.getiCardNo()).geteRank().getiRankNbr() != super.getCards()
 				.get(eCardNo.SECOND.getiCardNo()).geteRank().getiRankNbr()
 				&& super.getCards().get(eCardNo.SECOND.getiCardNo()).geteRank().getiRankNbr() != super.getCards()
@@ -293,10 +296,9 @@ public class HandPoker extends Hand {
 						.get(eCardNo.FOURTH.getiCardNo()).geteRank().getiRankNbr()
 				&& super.getCards().get(eCardNo.FOURTH.getiCardNo()).geteRank().getiRankNbr() != super.getCards()
 						.get(eCardNo.FIFTH.getiCardNo()).geteRank().getiRankNbr()) {
-			
-			bisHighCard = true;
 			HS.seteHandStrength(eHandStrength.HighCard);
 			HS.setHiCard(super.getCards().get(eCardNo.FIRST.getiCardNo()));
+			bisHighCard = true;
 			this.setHS(HS);
 		}
 		return bisHighCard;

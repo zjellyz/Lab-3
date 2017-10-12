@@ -26,13 +26,13 @@ public class HandPokerTest {
 	public void isStraightFlush() {
 
 		HandPoker hp = new HandPoker();
-		hp.AddCard(new Card(eSuit.DIAMONDS, eRank.ACE));
-		hp.AddCard(new Card(eSuit.DIAMONDS, eRank.TWO));
-		hp.AddCard(new Card(eSuit.DIAMONDS, eRank.THREE));
-		hp.AddCard(new Card(eSuit.DIAMONDS, eRank.FOUR));
-		hp.AddCard(new Card(eSuit.DIAMONDS, eRank.FIVE));
+		hp.AddCard(new Card(eSuit.HEARTS, eRank.SIX));
+		hp.AddCard(new Card(eSuit.HEARTS, eRank.SEVEN));
+		hp.AddCard(new Card(eSuit.HEARTS, eRank.EIGHT));
+		hp.AddCard(new Card(eSuit.HEARTS, eRank.NINE));
+		hp.AddCard(new Card(eSuit.HEARTS, eRank.TEN));
 		hp.ScoreHand();
-		assertEquals(hp.isStraightFlush(), true);
+		assertEquals(hp.isStraight(), true);
 	}
 
 	@Test
@@ -82,6 +82,7 @@ public class HandPokerTest {
 		hp.AddCard(new Card(eSuit.SPADES, eRank.NINE));
 		hp.AddCard(new Card(eSuit.CLUBS, eRank.TEN));
 		hp.ScoreHand();
+		assertEquals(hp.isStraight(),true);
 	}
 
 	@Test

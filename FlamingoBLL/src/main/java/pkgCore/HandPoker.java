@@ -295,7 +295,7 @@ public class HandPoker extends Hand {
 				&& super.getCards().get(eCardNo.THIRD.getiCardNo()).geteRank().getiRankNbr() != super.getCards()
 						.get(eCardNo.FOURTH.getiCardNo()).geteRank().getiRankNbr()
 				&& super.getCards().get(eCardNo.FOURTH.getiCardNo()).geteRank().getiRankNbr() != super.getCards()
-						.get(eCardNo.FIFTH.getiCardNo()).geteRank().getiRankNbr()) {
+						.get(eCardNo.FIFTH.getiCardNo()).geteRank().getiRankNbr()&& this.isFlush() == false) {
 			HS.seteHandStrength(eHandStrength.HighCard);
 			HS.setHiCard(super.getCards().get(eCardNo.FIRST.getiCardNo()));
 			bisHighCard = true;
